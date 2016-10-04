@@ -34,7 +34,6 @@ public class MainActivityFragment extends Fragment {
         Firebase ref = new Firebase(Constants.MONTLYINTERNETUSERSREF).child(Constants.ACTIVEUSERS);
 
 
-
         return view;
     }
 }

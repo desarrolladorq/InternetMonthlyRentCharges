@@ -1,15 +1,25 @@
 package test.example.internetmonthlyrentcharges;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
+    // variables to store views that are in the window that appear to the user when the add
+    // button is hit by the user
+    private EditText editUserNameForm;
+    private EditText billValueForm;
+    private EditText installationChargedForm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,14 +28,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        /* helper function to set actions When we click over the plus sign button placed at the
+         right end bottom of the user screen */
+        setFloatingActionButton();
     }
 
     @Override
@@ -49,4 +54,53 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void setFloatingActionButton(){
+        FloatingActionButton addNewUser = (FloatingActionButton) findViewById(R.id.addNewUser);
+        addNewUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // when click is done then display a form to fill with data that is asked
+                // to the user
+                View view = (LayoutInflater.from(MainActivity.this)).inflate(R.layout.user_input_form, null);
+                AlertDialog.Builder alertBuilder = new AlertDialog.Builder(MainActivity.this);
+                alertBuilder.setView(view);
+
+                // bind input views with this view, input views parameter are declared
+                // at the top of this class and, "this view" refer to the view that is inflated when
+                // the user click on the add button and the view is passsed as a parameter to the function)
+                bindInputViews(view);
+
+                alertBuilder.setCancelable(true).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Capture the data from the input view (the variables of the input views
+                        // are declared at the top of this class)
+
+                        // Capture the data from inputs, and send it to Firebase
+                        //sendInputDataFromFormToFirebase(editUserNameForm, billValueForm, installationChargedForm);
+
+                        /*
+                         For the first time when we add a new user we also send the data structure for
+                          monthly paid, though we send empty fields, we're going to edit these fields later
+                          we send empty data for 3 years, from 2015 to 2017
+                        */
+                        //sendMonthlyChargesFieldsToFirebase();
+
+                    }
+                });
+                Dialog dialog = alertBuilder.create();
+                dialog.show();
+            }
+        });
+
+    }
+
+    private void bindInputViews(View view) {
+        editUserNameForm = (EditText) view.findViewById(R.id.editUserNameForm);
+        billValueForm = (EditText) view.findViewById(R.id.billValueForm);
+        installationChargedForm = (EditText) view.findViewById(R.id.installationChargedForm);
+    }
+
+
 }

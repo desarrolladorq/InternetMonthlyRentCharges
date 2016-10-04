@@ -17,9 +17,11 @@ import android.widget.EditText;
 import com.firebase.client.Firebase;
 
 import test.example.internetmonthlyrentcharges.constants.Constants;
+import test.example.internetmonthlyrentcharges.models.MonthModel;
 import test.example.internetmonthlyrentcharges.models.UserAtributesModel;
 import test.example.internetmonthlyrentcharges.models.UserNameModel;
 import test.example.internetmonthlyrentcharges.semimodels.ArrayOfInputsFormToSendFirebaseO;
+import test.example.internetmonthlyrentcharges.semimodels.ArrayOfMonthlyChargesFields;
 
 public class MainActivity extends AppCompatActivity {
     // variables to store views that are in the window that appear to the user when the add
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                           monthly paid, though we send empty fields, we're going to edit these fields later
                           we send empty data for 3 years, from 2015 to 2017
                         */
-                        //sendMonthlyChargesFieldsToFirebase();
+                        sendMonthlyChargesFieldsToFirebase();
 
                     }
                 });
@@ -160,5 +162,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void sendMonthlyChargesFieldsToFirebase(){
+
+        // Instantiate an object to build the array of Month Model objects to send to firebase
+        ArrayOfMonthlyChargesFields arrayOfMonthlyChargesFields = new ArrayOfMonthlyChargesFields();
+
+        // we invoke the method over the object instance above in order to get the array of MonthModel
+        MonthModel[] monthModels = arrayOfMonthlyChargesFields.buildArrayOfMonthModelToSendToFirebase();
+
+        // We get the reference to firebase to send the data
+        Firebase ref = new Firebase(Constants.MONTLYINTERNETUSERSREF).child(Constants.USERSMONTHLYCHARGES).
+                child(userKey);
+        /* usersMontlyCharges take care of 3 years from 2015 to 2017, if the user need to add more
+         years then here we're going to generate more references and fill it with empty data, don't
+         forget to update the code to also read the data in fragments
+         */
+        Firebase ref2015 = ref.child("2015");
+        // we send the array of MonthModel with empty data for 2015
+        ref2015.setValue(monthModels);
+
+        Firebase ref2016 = ref.child("2016");
+        // again we send the array of MonthModel with empty data for 2016
+        ref2016.setValue(monthModels);
+
+        Firebase ref2017 = ref.child("2017");
+        // And lastly we send the array of MonthModel with empty data for 2017
+        ref2017.setValue(monthModels);
+    }
 
 }

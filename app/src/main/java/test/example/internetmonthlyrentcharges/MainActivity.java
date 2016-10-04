@@ -14,12 +14,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.firebase.client.Firebase;
+
+import test.example.internetmonthlyrentcharges.constants.Constants;
+import test.example.internetmonthlyrentcharges.models.UserAtributesModel;
+import test.example.internetmonthlyrentcharges.models.UserNameModel;
+import test.example.internetmonthlyrentcharges.semimodels.ArrayOfInputsFormToSendFirebaseO;
+
 public class MainActivity extends AppCompatActivity {
     // variables to store views that are in the window that appear to the user when the add
     // button is hit by the user
     private EditText editUserNameForm;
     private EditText billValueForm;
     private EditText installationChargedForm;
+
+    // Variable to store the generated key of the user
+    private String userKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                         // are declared at the top of this class)
 
                         // Capture the data from inputs, and send it to Firebase
-                        //sendInputDataFromFormToFirebase(editUserNameForm, billValueForm, installationChargedForm);
+                        sendInputDataFromFormToFirebase();
 
                         /*
                          For the first time when we add a new user we also send the data structure for
@@ -100,6 +110,54 @@ public class MainActivity extends AppCompatActivity {
         editUserNameForm = (EditText) view.findViewById(R.id.editUserNameForm);
         billValueForm = (EditText) view.findViewById(R.id.billValueForm);
         installationChargedForm = (EditText) view.findViewById(R.id.installationChargedForm);
+    }
+
+    private void sendInputDataFromFormToFirebase(){
+
+        // Get the string inputs from the TextEdit fields
+        String strUserNameInput = editUserNameForm.getText().toString().trim();
+        String strBill = billValueForm.getText().toString().trim();
+        String strInstallationPayment = installationChargedForm.getText().toString().trim();
+
+        /*
+          if the input field showed to the user was not filled with at least
+          one user name then  we don't invoke any action
+         */
+        if(!strUserNameInput.isEmpty()) {
+
+            /*
+             Build an array of elements to send to Firebase database, we first instantiate a fragment
+             then after we invoke two methos in order to get the arraym first method take 7 (seven)
+            parameters, each one of type String, (yes, when we register a new user for the first time
+            we can send last fourth parameters as empty string)
+            */
+            ArrayOfInputsFormToSendFirebaseO arrayOfInputsFormToSendFirebaseO = new
+                    ArrayOfInputsFormToSendFirebaseO();
+
+            //from the instance above we invoke the methos that set the inputs
+            arrayOfInputsFormToSendFirebaseO.getInputsFromForm(
+                    strUserNameInput, strBill, strInstallationPayment, "","","","");
+
+
+            Firebase usernameRef = new Firebase(Constants.MONTLYINTERNETUSERSREF).child(Constants.
+                    ACTIVEUSERS);
+            Firebase refWithKey = usernameRef.push();
+            userKey = refWithKey.getKey();
+            UserNameModel userNameModel = new UserNameModel(strUserNameInput);
+
+            refWithKey.setValue(userNameModel);
+
+
+            //  we invoke the method that return an array of HashMap, we need this last one
+            // to send it to Firebase database to user attributes ref
+            UserAtributesModel[] userAtributesModel =
+                    arrayOfInputsFormToSendFirebaseO.buildArrayOfMapToSend();
+
+            Firebase userAttrRef = new Firebase(Constants.MONTLYINTERNETUSERSREF).child(Constants.
+                    USERS_ATRIBUTES).child(userKey);
+
+            userAttrRef.setValue(userAtributesModel);
+        }
     }
 
 

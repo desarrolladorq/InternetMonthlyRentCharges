@@ -27,6 +27,14 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity
+            android:name=".SuspendedUsersActivity"
+            android:label="@string/title_activity_suspended_users"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="test.example.internetmonthlyrentcharges.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

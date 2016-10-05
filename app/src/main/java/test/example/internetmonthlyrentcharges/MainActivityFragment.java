@@ -34,12 +34,14 @@ public class MainActivityFragment extends Fragment {
         // inflate the view for MainActivityFragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
-        //Get a reference to a ListView, and attach this adapter to it
+        // inflate the layout for the listView
         listView = (ListView) view.findViewById(
                 R.id.listview);
 
         // set the adapter with firebase data and populate the list view
         setAdapterAndPopulateListView();
+
+
 
         return view;
     }
@@ -62,6 +64,7 @@ public class MainActivityFragment extends Fragment {
                 textView.setText(username);
             }
         };
+        // attach the adapter to the listView
         listView.setAdapter(firebaseListAdapter);
     }
 }

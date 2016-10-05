@@ -14,6 +14,7 @@ import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseListAdapter;
 
 import test.example.internetmonthlyrentcharges.constants.Constants;
+import test.example.internetmonthlyrentcharges.fragments.MonthsFragment;
 import test.example.internetmonthlyrentcharges.models.UserNameModel;
 
 /**
@@ -95,8 +96,8 @@ public class MainActivityFragment extends Fragment {
                 String userName = userNameModel.getUsername();
                 // we send both userKey and userName as extras in the intent
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
-                //intent.putExtra(MonthsFragment.USER_KEY, keyUser);
-                //intent.putExtra(MonthsFragment.USER_NAME, userName);
+                intent.putExtra(MonthsFragment.USER_KEY, keyUser);
+                intent.putExtra(MonthsFragment.USER_NAME, userName);
                 // we start the intent
                 startActivity(intent);
 

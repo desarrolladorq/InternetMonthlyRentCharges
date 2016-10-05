@@ -1,10 +1,12 @@
 package test.example.internetmonthlyrentcharges;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -24,6 +26,14 @@ public class MainActivityFragment extends Fragment {
     // variable to store a ListView
     ListView listView;
 
+    // declaring variable to store the key of the user, which we're going to use to build a new ref
+    String keyUser;
+
+    /* declaring the variable to store the username model of the user */
+    UserNameModel userNameModel;
+
+
+
     public MainActivityFragment() {
     }
 
@@ -42,6 +52,8 @@ public class MainActivityFragment extends Fragment {
         setAdapterAndPopulateListView();
 
 
+        // helper function to set the onItemClickListener on the list view
+        setOnItemClickListenerOnListView();
 
         return view;
     }
@@ -66,5 +78,29 @@ public class MainActivityFragment extends Fragment {
         };
         // attach the adapter to the listView
         listView.setAdapter(firebaseListAdapter);
+    }
+
+    private void setOnItemClickListenerOnListView(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                /* we get user the user key by getting the ref of the current view position in the
+                firebaseListAdapter */
+                keyUser = firebaseListAdapter.getRef(i).getKey();
+                String keyUser = firebaseListAdapter.getRef(i).getKey();
+                /* we get the model from the firebaseListAdapter based on the index
+                of the view that we make click on */
+                userNameModel = firebaseListAdapter.getItem(i);
+                // we get the user name from the model
+                String userName = userNameModel.getUsername();
+                // we send both userKey and userName as extras in the intent
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                //intent.putExtra(MonthsFragment.USER_KEY, keyUser);
+                //intent.putExtra(MonthsFragment.USER_NAME, userName);
+                // we start the intent
+                startActivity(intent);
+
+            }
+        });
     }
 }

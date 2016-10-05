@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Spinner
+        android:id="@+id/spinnerYears"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:padding="16dp"/>
+
+    <ListView
+        android:id="@+id/listViewCash2015"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:layout_marginBottom="?android:attr/listPreferredItemHeight"
+        />
+
+    <ListView
+        android:id="@+id/listViewCash2016"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:layout_marginBottom="?android:attr/listPreferredItemHeight"/>
+
+    <ListView
+        android:id="@+id/listViewCash2017"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:layout_marginBottom="?android:attr/listPreferredItemHeight"/>
+
+
+</LinearLayout>

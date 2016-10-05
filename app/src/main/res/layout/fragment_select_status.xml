@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_user"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="test.example.cobrarrentadeinternet.DetailActivity">
+    <TextView
+        android:id="@+id/titleDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:paddingTop="16dp"
+        android:minHeight="?android:attr/listPreferredItemHeight"/>
+
+    <ListView
+        android:id="@+id/listviewSelectStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="?android:attr/listPreferredItemHeight"/>
+</LinearLayout>

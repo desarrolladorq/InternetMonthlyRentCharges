@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp"
+    android:clickable="false"
+    android:descendantFocusability="blocksDescendants"
+    android:focusable="false"
+    android:foreground="?selectableItemBackground"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:fontFamily="@string/action_settings"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:id="@+id/list_item_name_textview"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:textSize="10dp"
+        android:fontFamily="@string/action_settings"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:id="@+id/list_item_name_textview2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:textSize="10dp"
+        android:fontFamily="@string/action_settings"
+        android:textColor="#C8E6C9"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:id="@+id/list_item_name_textviewCash"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>/>
+</RelativeLayout>

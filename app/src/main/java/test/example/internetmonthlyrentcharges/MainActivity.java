@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import test.example.internetmonthlyrentcharges.constants.Constants;
 import test.example.internetmonthlyrentcharges.models.MonthModel;
@@ -37,14 +39,53 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // we inflate the view for this activity
         setContentView(R.layout.activity_main);
+        // we inflate the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // we set the support to customize the action bar later
         setSupportActionBar(toolbar);
+        /* helper function to calculate and set the toolbar title with the total number of active
+         users */
+        setToolbarTitleWithTotalNumberActiveUsers();
 
         /* helper function to set actions When we click over the plus sign button placed at the
          right end bottom of the user screen */
         setFloatingActionButton();
+
     }
+
+    private void setToolbarTitleWithTotalNumberActiveUsers(){
+        // we create the ref for the activeUsers
+        Firebase usernameRef = new Firebase(Constants.MONTLYINTERNETUSERSREF).child(Constants.
+                ACTIVEUSERS);
+        // we set a listener for this ref
+        usernameRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // we get the childrens of the datasnapshot as an iterable
+                Iterable users =  dataSnapshot.getChildren();
+                // we set a counter the count the number of times we iterate with a for loop below
+                int counter = 0;
+                // we iterate with each single element in the iterable
+                for(Object user : users){
+                    // we add 1 to the counter each time we iterate
+                    counter ++;
+                }
+                /* we set the toolbar title with the total number we get from the for loop, and also
+                 we add extra title */
+                setTitle(" "+counter+" "+Constants.TITLEMAINACTIVITY);
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -197,5 +238,6 @@ public class MainActivity extends AppCompatActivity {
         // And lastly we send the array of MonthModel with empty data for 2017
         ref2017.setValue(monthModels);
     }
+
 
 }

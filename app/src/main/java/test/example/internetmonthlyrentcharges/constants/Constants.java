@@ -15,4 +15,6 @@ public class Constants {
     public final static String SUSPENDEDUSERS = "suspendedUsers";
     // Constant to store the branch structure "usersMontlyCharges" in firebase databbase
     public final static String USERSMONTHLYCHARGES = "usersMontlyCharges";
+
+    public final static String TITLEMAINACTIVITY = " usuarios activos";
 }
